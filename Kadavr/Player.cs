@@ -30,7 +30,7 @@ namespace Kadavr
 
         public void MoveLeft()
         {
-            if (posX < 25)
+            if (posX > 25)
             {
                 posX -= speed;
             }
@@ -44,14 +44,14 @@ namespace Kadavr
         }
         public void MoveUp()
         {
-            if (posY > 345)
+            if (posY > 245 ) //345
             {
                 posY -= speed;
             }
         }
         public void MoveDown()
         {
-            if (posY > 490)
+            if (posY < 490)
             {
                 posY += speed;
             }

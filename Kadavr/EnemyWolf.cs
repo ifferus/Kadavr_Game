@@ -9,30 +9,81 @@ namespace Kadavr
 {
     internal class EnemyWolf
     {
-        public int posX = 400;
-        public int posY = 500;
+        public int posXRender = 120;
+        public int posYRender = 380;
+        public int[,] wolf;
+        public int posX;
+        public int posY;
+
+
+        public void SpawnWolf(int x, int y)
+        {
+            posX = x;
+            posY = y;
+        }
+        public void MoveWolf()
+        {
+            posXRender += 1;
+        }
 
         public void DrawWolf(Graphics g)
         {
-            //тело
-            Rectangle wolfBody = new Rectangle(posX, posY, 100, 40);
-            LinearGradientBrush wolfBodyBrush = new LinearGradientBrush(wolfBody, Color.DarkSlateGray, Color.Gray, LinearGradientMode.Horizontal);
-            g.FillRectangle(wolfBodyBrush, wolfBody);
-
             //Голова
-            Rectangle wolfHead = new Rectangle(posX, posY, 40, 50);
-            LinearGradientBrush wolfHeadBrush = new LinearGradientBrush(wolfHead, Color.DarkSlateGray, Color.Gray, LinearGradientMode.Horizontal);
-            g.FillRectangle(wolfHeadBrush, wolfHead);
+            Rectangle headWolf = new Rectangle(posX - posXRender, posY, 20, 30);
+            g.DrawEllipse(Pens.Gray, headWolf);
+            g.FillEllipse(Brushes.Gray, headWolf);
+            //Морда
+            Rectangle wolfMuzzle = new Rectangle(posX - 10 -posXRender, posY + 10, 40, 20);
+            g.DrawEllipse(Pens.Gray, wolfMuzzle);
+            g.FillEllipse(Brushes.Gray, wolfMuzzle);
 
-            ////Земля
-            //Rectangle mapLand = new Rectangle(0, 340, 1280, 350);
-            //LinearGradientBrush brush_Down = new LinearGradientBrush(mapLand, Color.Brown, Color.SaddleBrown, LinearGradientMode.Vertical);
-            //g.FillRectangle(brush_Down, mapLand);
+            //Шея
+            Rectangle heckWolf = new Rectangle(posX + 10 - posXRender, posY-5, 15, 30);
+            g.DrawEllipse(Pens.Gray, heckWolf);
+            g.FillEllipse(Brushes.Gray, heckWolf);
+            //Шея 2
+            Rectangle heckWolf_2 = new Rectangle(posX + 15 - posXRender, posY + 10, 15, 30);
+            g.DrawEllipse(Pens.Gray, heckWolf_2);
+            g.FillEllipse(Brushes.Gray, heckWolf_2);
 
-            ////Земля
-            //Rectangle mapTestLand = new Rectangle(1400 - player.posXRender, 340, 1280, 350);
-            //LinearGradientBrush brush_Down1 = new LinearGradientBrush(mapTestLand, Color.Brown, Color.Black, LinearGradientMode.Vertical);
-            //g.FillRectangle(brush_Down1, mapTestLand);
+            //Ноги передние
+            //Нога передняя внутренняя
+            Rectangle legFrontInternalWolf = new Rectangle(posX + 25 - posXRender, posY + 40, 10, 50);
+            g.FillRectangle(Brushes.DarkSlateGray, legFrontInternalWolf);
+            //Нога передняя внешняя
+            Rectangle legFrontExternalWolf = new Rectangle(posX + 30 - posXRender, posY + 50, 10, 40);
+            g.FillRectangle(Brushes.Gray, legFrontExternalWolf);
+
+            //Ноги сзадние
+            //Нога задния внутренняя
+            Rectangle legBackInternalWolf = new Rectangle(posX + 80 - posXRender, posY + 40, 10, 50);
+            g.FillRectangle(Brushes.DarkSlateGray, legBackInternalWolf);
+            //Нога задния внешняя
+            Rectangle legBackExternalWolf = new Rectangle(posX + 85 - posXRender, posY + 50, 10, 40);
+            g.FillRectangle(Brushes.Gray, legBackExternalWolf);
+
+            //Переход Шея-тело
+            Rectangle heckToBodyWolf = new Rectangle(posX + 20 - posXRender, posY + 15, 15, 30);
+            g.DrawEllipse(Pens.Gray, heckToBodyWolf);
+            g.FillEllipse(Brushes.Gray, heckToBodyWolf);
+            //Тело
+            Rectangle BodyWolf = new Rectangle(posX + 25 - posXRender, posY + 20, 20, 45);
+            g.DrawEllipse(Pens.Gray, BodyWolf);
+            g.FillEllipse(Brushes.Gray, BodyWolf);
+            //Тело 2
+            Rectangle BodyWolf_2 = new Rectangle(posX + 35 - posXRender, posY + 20, 45, 40);
+            g.DrawEllipse(Pens.Gray, BodyWolf_2);
+            g.FillEllipse(Brushes.Gray, BodyWolf_2);
+            //Тело 3
+            Rectangle BodyWolf_3 = new Rectangle(posX + 55 - posXRender, posY + 20, 50, 45);
+            g.DrawEllipse(Pens.Gray, BodyWolf_3);
+            g.FillEllipse(Brushes.Gray, BodyWolf_3);
+
+            //Хвост
+            Rectangle tailWolf = new Rectangle(posX + 95 - posXRender, posY + 20, 10, 20);
+            g.FillRectangle(Brushes.Gray, tailWolf);
+
         }
+        
     }
 }

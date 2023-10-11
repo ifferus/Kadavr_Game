@@ -20,7 +20,7 @@ namespace Kadavr
         }
         public void MoveRight()
         {
-                posXRender += speed;
+            posXRender += speed;
         }
 
         public void DrawMaps(Graphics g)

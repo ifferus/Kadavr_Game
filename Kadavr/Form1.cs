@@ -11,7 +11,8 @@ namespace Kadavr
         PictureBox[] bird;
         PictureBox[] bullets;
         Player player;
-        EnemyWolf enemyWolf;
+        //EnemyWolf enemyWolf;
+        EnemyWolf[] enemyWolfs;
         MapController map;
         public int count = 0;
         Random rnd;
@@ -30,40 +31,14 @@ namespace Kadavr
             Invalidate();
         }
 
-        public void DrawMaps(Graphics g)
-        {
-            //Горизонт
-            Rectangle mapSkyLine = new Rectangle(0, 320, 1280, 20);
-            g.FillRectangle(Brushes.Black, mapSkyLine);
-
-            //Небо
-            Rectangle mapSky = new Rectangle(0, 0, 1280, 320);
-            LinearGradientBrush brush_Top = new LinearGradientBrush(mapSky, Color.Red, Color.Yellow, LinearGradientMode.Vertical);
-            g.FillRectangle(brush_Top, mapSky);
-
-            //Земля
-            Rectangle mapLand = new Rectangle(0, 340, 1280, 350);
-            LinearGradientBrush brush_Down = new LinearGradientBrush(mapLand, Color.Brown, Color.SaddleBrown, LinearGradientMode.Vertical);
-            g.FillRectangle(brush_Down, mapLand);
-
-            //Земля
-            Rectangle mapTestLand = new Rectangle(1400-player.posXRender, 340, 1280, 350);
-            LinearGradientBrush brush_Down1 = new LinearGradientBrush(mapTestLand, Color.Brown, Color.Black, LinearGradientMode.Vertical);
-            g.FillRectangle(brush_Down1, mapTestLand);
-
-            //Солнце
-            Rectangle mapSun = new Rectangle(100, 140, 150, 150);
-            LinearGradientBrush brush_Sun = new LinearGradientBrush(mapSun, Color.GhostWhite, Color.Yellow, LinearGradientMode.Vertical);
-            g.DrawEllipse(Pens.Yellow, mapSun);
-            g.FillEllipse(brush_Sun, mapSun);
-        }
 
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
             player = new Player();
-            enemyWolf= new EnemyWolf();
+            //enemyWolf = new EnemyWolf();
+            enemyWolfs = new EnemyWolf[10];
             map = new MapController();
             bird = new PictureBox[20];
             bullets = new PictureBox[1];
@@ -97,14 +72,25 @@ namespace Kadavr
 
                 this.Controls.Add(bullets[i]);
             }
+            for (int i = 0; i < enemyWolfs.Length; i++)
+            {
+                enemyWolfs[i] = new EnemyWolf();
+
+                enemyWolfs[i].SpawnWolf(rnd.Next(300, 1400) - player.posX, rnd.Next(340, 650));
+            }
         }
 
         private void Kadavr_Game_Paint(object sender, PaintEventArgs e)
         {
             Graphics demos = e.Graphics;
             map.DrawMaps(demos);
-            enemyWolf.DrawWolf(demos);
             player.DrawPlayer(demos);
+            for (int i = 0; i <  enemyWolfs.Length; i++)
+            {
+                //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
+                enemyWolfs[i].DrawWolf(demos);
+            }
+            //enemyWolf.DrawWolf(demos);
         }
 
         private void updateBackground_Tick(object sender, EventArgs e)
@@ -126,6 +112,12 @@ namespace Kadavr
                     bird[i].Left = bird[i].Left;
                 }
             }
+            for (int i = 0; i < enemyWolfs.Length; i++)
+            {
+                //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
+                enemyWolfs[i].MoveWolf();
+            }
+
             //player.posX += 1;
             //player.posY += 1;
             Refresh();
@@ -135,43 +127,20 @@ namespace Kadavr
         {
             CordY.Text = Convert.ToString(player.posY);
             CordX.Text = Convert.ToString(player.posX);
-            //if (e.KeyCode == Keys.Up)
-            //{
-            //    player.Move(Direction.Up);
-            //    upPressed = true;
-            //}
-
-            //if (e.KeyCode == Keys.Down)
-            //{
-            //    player.Move(Direction.Down);
-            //    downPressed = true;
-            //}
-
-            //if (e.KeyCode == Keys.Left)
-            //{
-            //    player.Move(Direction.Left);
-            //    leftPressed = true;
-            //}
-
-            //if (e.KeyCode == Keys.Right)
-            //{
-            //    player.Move(Direction.Right);
-            //    rightPressed = true;
-            //}
             switch (e.KeyCode)
             {
                 case Keys.Left:
-                    player.MoveLeft();
                     if (player.posX < 250)
                     {
                         map.MoveLeft();
                     }
+                    player.MoveLeft();
                     break;
                 case Keys.Right:
-                    player.MoveRight();
+                    map.MoveRight();
                     if (player.posX < 500)
                     {
-                        map.MoveLeft();
+                        player.MoveRight();
                     }
                     break;
                 case Keys.Up:
@@ -192,40 +161,6 @@ namespace Kadavr
                     break;
             }
         }
-
-        //            if (e.KeyCode == Keys.Up)
-        //{
-        //    player.Move(Direction.Up);
-
-        //}
-
-        //if (e.KeyCode == Keys.Down)
-        //{
-        //    player.Move(Direction.Down);
-        //}
-
-        //if (e.KeyCode == Keys.Left)
-        //{
-        //    player.Move(Direction.Left);
-        //}
-
-        //if (e.KeyCode == Keys.Right)
-        //{
-        //    player.Move(Direction.Right);
-        //}
-
-        //if (e.KeyCode == Keys.Space)
-        //{
-        //    for (int i = 0; i < bullets.Length; i++)
-        //    {
-        //        //Intercect();
-        //        if (bullets[i].Left > 1280)
-        //        {
-        //            bullets[i].Location = new Point(player.posX + 25 + i * 100, player.posY + 88);
-        //        }
-        //    }
-        //}
-    //}
         private void Kadavr_Game_KeyUp(object sender, KeyEventArgs e)
         {
 
