@@ -34,6 +34,7 @@
             this.CordX = new System.Windows.Forms.Label();
             this.CordY = new System.Windows.Forms.Label();
             this.moveBulletsTimer_Tick = new System.Windows.Forms.Timer(this.components);
+            this.Score = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // updateBackground
@@ -66,10 +67,20 @@
             this.moveBulletsTimer_Tick.Interval = 25;
             this.moveBulletsTimer_Tick.Tick += new System.EventHandler(this.moveBulletsTimer_Tick_Tick);
             // 
+            // Score
+            // 
+            this.Score.AutoSize = true;
+            this.Score.Location = new System.Drawing.Point(907, 54);
+            this.Score.Name = "Score";
+            this.Score.Size = new System.Drawing.Size(38, 15);
+            this.Score.TabIndex = 2;
+            this.Score.Text = "label1";
+            // 
             // Kadavr_Game
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.Score);
             this.Controls.Add(this.CordY);
             this.Controls.Add(this.CordX);
             this.DoubleBuffered = true;
@@ -95,5 +106,6 @@
         private Label CordX;
         private Label CordY;
         private System.Windows.Forms.Timer moveBulletsTimer_Tick;
+        private Label Score;
     }
 }

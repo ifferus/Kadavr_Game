@@ -76,7 +76,7 @@ namespace Kadavr
             {
                 enemyWolfs[i] = new EnemyWolf();
 
-                enemyWolfs[i].SpawnWolf(rnd.Next(300, 1400) - player.posX, rnd.Next(340, 650));
+                enemyWolfs[i].SpawnWolf(rnd.Next(1400, 3000), rnd.Next(340, 500));
             }
         }
 
@@ -134,6 +134,13 @@ namespace Kadavr
                     {
                         map.MoveLeft();
                     }
+                    if (player.posX > 25)
+                    {
+                        for (int i = 0; i < enemyWolfs.Length; i++)
+                        {
+                            enemyWolfs[i].MoveWolfOnPlayer(-player.speed);
+                        }
+                    }
                     player.MoveLeft();
                     break;
                 case Keys.Right:
@@ -141,6 +148,13 @@ namespace Kadavr
                     if (player.posX < 500)
                     {
                         player.MoveRight();
+                    }
+                    if (player.posX > 500)
+                    {
+                        for (int i = 0; i < enemyWolfs.Length; i++)
+                        {
+                            enemyWolfs[i].MoveWolfOnPlayer(player.speed);
+                        }
                     }
                     break;
                 case Keys.Up:
@@ -152,7 +166,7 @@ namespace Kadavr
                 case Keys.Space:
                     for (int i = 0; i < bullets.Length; i++)
                     {
-                        //Intercect();
+                        Intercect();
                         if (bullets[i].Left > 1280)
                         {
                             bullets[i].Location = new Point(player.posX + 25 + i * 100, player.posY + 88);
@@ -171,6 +185,26 @@ namespace Kadavr
             for (int i = 0; i < bullets.Length; i++)
             {
                 bullets[i].Left += bulletsSpeed;
+            }
+        }
+
+        private void Intercect()
+        {
+            for (int i = 0; i < enemyWolfs.Length; i++)
+            {
+                if (enemyWolfs[i].heatBoxWolf.IntersectsWith(bullets[0].Bounds))
+                {
+                    enemyWolfs[i].SpawnWolf(3000, 5000);
+                    bullets[0].Location = new Point(2000, player.posY + 50);
+                    count++;
+                    Score.Text = Convert.ToString(count);
+                }
+
+                //if (mainPlayer.Bounds.IntersectsWith(enemyWolfs[i].Bounds))
+                //{
+                //    GameOver();
+                //    mainPlayer.Visible = false;
+                //}
             }
         }
     }

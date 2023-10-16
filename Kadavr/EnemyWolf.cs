@@ -9,11 +9,16 @@ namespace Kadavr
 {
     internal class EnemyWolf
     {
+        /// <summary>
+        /// Нужно сделать отдельный тайм тикет, чтобы тот работал на срабатывание плеера в лево и право 
+        /// </summary>
         public int posXRender = 120;
         public int posYRender = 380;
         public int[,] wolf;
         public int posX;
         public int posY;
+        Random rnd;
+
 
 
         public void SpawnWolf(int x, int y)
@@ -23,11 +28,22 @@ namespace Kadavr
         }
         public void MoveWolf()
         {
-            posXRender += 1;
+            rnd = new Random();
+            posXRender += 5 +  rnd.Next(1,5) - rnd.Next(1,5);
         }
+
+        public void MoveWolfOnPlayer(int posXPlayer)
+        {
+            posXRender += posXPlayer;
+        }
+
+        public Rectangle heatBoxWolf;
 
         public void DrawWolf(Graphics g)
         {
+            heatBoxWolf = new Rectangle(posX - posXRender, posY, 100, 90);
+            g.DrawRectangle(Pens.Black, heatBoxWolf);
+            
             //Голова
             Rectangle headWolf = new Rectangle(posX - posXRender, posY, 20, 30);
             g.DrawEllipse(Pens.Gray, headWolf);
@@ -82,7 +98,6 @@ namespace Kadavr
             //Хвост
             Rectangle tailWolf = new Rectangle(posX + 95 - posXRender, posY + 20, 10, 20);
             g.FillRectangle(Brushes.Gray, tailWolf);
-
         }
         
     }
