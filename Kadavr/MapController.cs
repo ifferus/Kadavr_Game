@@ -23,6 +23,11 @@ namespace Kadavr
             posXRender += speed;
         }
 
+        public void MoveStop()
+        {
+            speed = 0;
+        }
+
         public void DrawMaps(Graphics g)
         {
             //Горизонт

@@ -16,17 +16,21 @@ namespace Kadavr
         public int posXRender = 120;
         public int posYRender = 380;
         public int speed = 5;
-        //public enum Direction
-        //{
-        //    Up,
-        //    Down,
-        //    Left,
-        //    Right,
-        //    //UpLeft,
-        //    //UpRight,
-        //    //DownLeft,
-        //    //DownRight
-        //}
+        public Rectangle heatBoxPlayer;
+        public int heatPoint = 100;
+        public bool playerIsDeath = false;
+        
+        public void RegisterDamage(int damage)
+        {
+            heatPoint -= damage;
+        }
+
+        public void Death(){
+            posX = 5000;
+            posY = 5000;
+            speed = 0;
+            playerIsDeath = true;
+        }
 
         public void MoveLeft()
         {
@@ -44,7 +48,7 @@ namespace Kadavr
         }
         public void MoveUp()
         {
-            if (posY > 245 ) //345
+            if (posY > 245 ) 
             {
                 posY -= speed;
             }
@@ -56,109 +60,11 @@ namespace Kadavr
                 posY += speed;
             }
         }
-        //public void Move(Direction direction)
-        //{
-        //    switch (direction)
-        //    {
-        //        case Direction.Up:
-        //            if (posY > 345){
-        //                posY -= speed;
-        //                posYRender -= speed+10;
-        //            }
-        //            break;
-        //        case Direction.Down:
-        //            if (posY < 490)
-        //            {
-        //                posY += speed;
-        //                posYRender += speed;
-        //            }
-        //            break;
-        //        case Direction.Left:
-        //            if(posX > 25)
-        //            {
-        //                posX -= speed;
-        //                if(posX < 250)
-        //                {
-        //                    posXRender -= speed;
-        //                }
-        //            }
-        //            break;
-        //        case Direction.Right:
-        //            if(posX < 1200)
-        //            {
-        //                if (posX < 500)
-        //                {
-        //                    posX += speed;
-        //                }
-        //                posXRender += speed + 10;
-        //            }
-        //            break;
-                //case Direction.UpLeft:
-                //    posX += speed;
-                //    posY -= speed;
-                //    break;
-                //case Direction.UpRight:
-                //    posX += speed;
-                //    posY += speed;
-                //    break;
-                //case Direction.DownLeft:
-                //    posX -= speed;
-                //    posY -= speed;
-                //    break;
-                //case Direction.DownRight:
-                //    posX -= speed;
-                //    posY += speed;
-                //    break;
-        //    }
-        //}
-
-        //public void MovePlayer(string way){ 
-        //    if (way == "left")
-        //    {
-        //        posX -= speed;
-        //    }
-
-        //    if (way == "right")
-        //    {
-        //        posX += speed;
-        //    }
-
-        //    if (way == "up")
-        //    {
-        //        posY -= speed;
-        //    }
-
-        //    if (way == "up+left")
-        //    {
-        //        posX -= speed;
-        //        posY -= speed;
-        //    }
-        //    if (way == "up+right")
-        //    {
-        //        posX += speed;
-        //        posY -= speed;
-        //    }
-
-        //    if (way == "down")
-        //    {
-        //        posY += speed;
-        //    }
-
-        //    if (way == "down+left")
-        //    {
-        //        posX -= speed;
-        //        posY += speed;
-        //    }
-        //    if (way == "down+right")
-        //    {
-        //        posX += speed;
-        //        posY += speed;
-        //    }
-        //}
 
         public void DrawPlayer(Graphics e)
         {
-            //Graphics demos = e.Graphics;
+            heatBoxPlayer = new Rectangle(posX - 30, posY - 10, 100, 200);
+
             //Голова игрока 
             Rectangle headPlayer = new Rectangle(posX, posY, 40, 40);
             e.DrawEllipse(Pens.Pink, headPlayer);

@@ -3,6 +3,8 @@ using System.Drawing;
 using System.Numerics;
 using static Kadavr.Player;
 using System.Reflection.Metadata;
+using WMPLib;
+using System.Net.Mail;
 
 namespace Kadavr
 {
@@ -11,13 +13,15 @@ namespace Kadavr
         PictureBox[] bird;
         PictureBox[] bullets;
         Player player;
-        //EnemyWolf enemyWolf;
         EnemyWolf[] enemyWolfs;
+        EnemyCactus[] enemyCactus;
         MapController map;
         public int count = 0;
         Random rnd;
         public int backgroundspeed;
-        int bulletsSpeed;
+        public int bulletsSpeed;
+        Sounds sound;
+
 
         public Kadavr_Game()
         {
@@ -29,6 +33,7 @@ namespace Kadavr
         {
             backgroundspeed = 1;
             Invalidate();
+            
         }
 
 
@@ -36,14 +41,17 @@ namespace Kadavr
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            sound = new Sounds();
             player = new Player();
-            //enemyWolf = new EnemyWolf();
-            enemyWolfs = new EnemyWolf[10];
+            enemyWolfs = new EnemyWolf[30];
+            enemyCactus = new EnemyCactus[10];
             map = new MapController();
             bird = new PictureBox[20];
             bullets = new PictureBox[1];
             bulletsSpeed = 80;
             rnd = new Random();
+            sound.StopAllSounds();
+            sound.SoundsMainTheme();
             for (int i = 0; i < bird.Length; i++)
             {
                 bird[i] = new PictureBox();
@@ -72,11 +80,17 @@ namespace Kadavr
 
                 this.Controls.Add(bullets[i]);
             }
+
             for (int i = 0; i < enemyWolfs.Length; i++)
             {
                 enemyWolfs[i] = new EnemyWolf();
+                enemyWolfs[i].SpawnWolf(rnd.Next(1400, 5000), rnd.Next(340, 500));
+            }
 
-                enemyWolfs[i].SpawnWolf(rnd.Next(1400, 3000), rnd.Next(340, 500));
+            for (int i = 0; i < enemyCactus.Length; i++)
+            {
+                enemyCactus[i] = new EnemyCactus();
+                enemyCactus[i].SpawnCactus(rnd.Next(1400, 3000), rnd.Next(340, 500));
             }
         }
 
@@ -85,11 +99,20 @@ namespace Kadavr
             Graphics demos = e.Graphics;
             map.DrawMaps(demos);
             player.DrawPlayer(demos);
+
+            for (int i = 0; i < enemyCactus.Length; i++)
+            {
+                //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
+                enemyCactus[i].DrawCactus(demos);
+            }
+
             for (int i = 0; i <  enemyWolfs.Length; i++)
             {
                 //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
                 enemyWolfs[i].DrawWolf(demos);
             }
+
+
             //enemyWolf.DrawWolf(demos);
         }
 
@@ -117,14 +140,12 @@ namespace Kadavr
                 //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
                 enemyWolfs[i].MoveWolf();
             }
-
-            //player.posX += 1;
-            //player.posY += 1;
             Refresh();
         }
 
         private void Kadavr_Game_KeyDown(object sender, KeyEventArgs e)
         {
+            if (player.playerIsDeath == true) return;
             CordY.Text = Convert.ToString(player.posY);
             CordX.Text = Convert.ToString(player.posX);
             switch (e.KeyCode)
@@ -140,6 +161,16 @@ namespace Kadavr
                         {
                             enemyWolfs[i].MoveWolfOnPlayer(-player.speed);
                         }
+
+                        for (int i = 0; i < enemyCactus.Length; i++)
+                        {
+                            enemyCactus[i].MoveRightCactus();
+                            enemyCactus[i].MoveCactusOnPlayer(-player.speed);
+                        }
+                    }
+                    for (int i = 0; i < enemyCactus.Length; i++)
+                    {
+                        enemyCactus[i].MoveLeftCactus();
                     }
                     player.MoveLeft();
                     break;
@@ -155,6 +186,15 @@ namespace Kadavr
                         {
                             enemyWolfs[i].MoveWolfOnPlayer(player.speed);
                         }
+
+                        for (int i = 0; i < enemyCactus.Length; i++)
+                        {
+                            enemyCactus[i].MoveCactusOnPlayer(player.speed);
+                        }
+                    }
+                    for (int i = 0; i < enemyCactus.Length; i++)
+                    {
+                        enemyCactus[i].MoveRightCactus();
                     }
                     break;
                 case Keys.Up:
@@ -166,7 +206,7 @@ namespace Kadavr
                 case Keys.Space:
                     for (int i = 0; i < bullets.Length; i++)
                     {
-                        Intercect();
+                        sound.SoundsShoot();
                         if (bullets[i].Left > 1280)
                         {
                             bullets[i].Location = new Point(player.posX + 25 + i * 100, player.posY + 88);
@@ -184,8 +224,10 @@ namespace Kadavr
         {
             for (int i = 0; i < bullets.Length; i++)
             {
+                Intercect();
                 bullets[i].Left += bulletsSpeed;
             }
+            hpBar.Text = Convert.ToString(player.heatPoint);
         }
 
         private void Intercect()
@@ -195,17 +237,61 @@ namespace Kadavr
                 if (enemyWolfs[i].heatBoxWolf.IntersectsWith(bullets[0].Bounds))
                 {
                     enemyWolfs[i].SpawnWolf(3000, 5000);
-                    bullets[0].Location = new Point(2000, player.posY + 50);
+                    bullets[0].Location = new Point(2000, player.posY + 500);
                     count++;
                     Score.Text = Convert.ToString(count);
+                    sound.SoundsHit();
+                    if (i % 5 == 0)
+                    {
+                        sound.SoundsHowl();
+                    }
+                    if (i % 8 == 0)
+                    {
+                        sound.SoundsSpeech();
+                    }
                 }
 
-                //if (mainPlayer.Bounds.IntersectsWith(enemyWolfs[i].Bounds))
-                //{
-                //    GameOver();
-                //    mainPlayer.Visible = false;
-                //}
+                if (player.heatBoxPlayer.IntersectsWith(enemyWolfs[i].heatBoxWolf))
+                {
+                    player.RegisterDamage(enemyWolfs[i].damage);
+                    if (player.heatPoint <= 0)
+                    {
+                        GameOver();
+                    }
+                }
+            }
+
+            for (int j = 0; j < enemyCactus.Length; j++)
+            {
+                if (enemyCactus[j].heatBoxCactus.IntersectsWith(bullets[0].Bounds))
+                {
+                    bullets[0].Location = new Point(2000, player.posY + 500);
+                    enemyCactus[j].RegisterDamage();
+                }
+
+                if (enemyCactus[j].heatBoxCactus.IntersectsWith(player.heatBoxPlayer))
+                {
+                    player.RegisterDamage(enemyCactus[j].damage);
+                    if (player.heatPoint <= 0)
+                    {
+                        GameOver();
+                    }
+                }
             }
         }
+
+        private void GameOver()
+        {
+            gameOverLabel.Visible = true;
+            player.Death();
+            map.MoveStop();
+            sound.SoundsSpeechDeath();
+        }
+
+        private void easyeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
