@@ -11,6 +11,7 @@ namespace Kadavr
     {
         public bool played = false;
         Random rnd;
+
         public WindowsMediaPlayer Shoot = new WindowsMediaPlayer
         {
             URL = "audio\\shoot.mp3"
@@ -47,6 +48,10 @@ namespace Kadavr
         {
             URL = "audio\\speechDeath.mp3"
         };
+        public WindowsMediaPlayer mainMenu = new WindowsMediaPlayer
+        {
+            URL = "audio\\mainMenu.mp3"
+        };
 
         public void StopAllSounds()
         {
@@ -58,11 +63,21 @@ namespace Kadavr
             speechShoot_3.controls.stop();
             speechShoot_4.controls.stop();
             speechDeath.controls.stop();
+            Song.controls.stop();
+            mainMenu.controls.stop();
         }
         public void SoundsMainTheme()
         {
             Song.settings.setMode("loop", true);
             Song.settings.volume = 50;
+            Song.controls.play();
+        }
+
+        public void SoundsMainMenu()
+        {
+            mainMenu.settings.setMode("loop", true);
+            mainMenu.settings.volume = 50;
+            mainMenu.controls.play();
         }
 
         public void SoundsShoot()

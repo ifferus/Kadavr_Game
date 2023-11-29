@@ -37,13 +37,6 @@
             this.Score = new System.Windows.Forms.Label();
             this.gameOverLabel = new System.Windows.Forms.Label();
             this.hpBar = new System.Windows.Forms.Label();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.Menu = new System.Windows.Forms.ToolStripMenuItem();
-            this.challenge = new System.Windows.Forms.ToolStripMenuItem();
-            this.easyeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mediumToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // updateBackground
@@ -112,53 +105,6 @@
             this.hpBar.TabIndex = 4;
             this.hpBar.Text = "label1";
             // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Menu});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
-            this.menuStrip1.TabIndex = 5;
-            this.menuStrip1.Text = "menuStrip1";
-            // 
-            // Menu
-            // 
-            this.Menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.challenge});
-            this.Menu.Name = "Menu";
-            this.Menu.Size = new System.Drawing.Size(50, 20);
-            this.Menu.Text = "Menu";
-            // 
-            // challenge
-            // 
-            this.challenge.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.easyeToolStripMenuItem,
-            this.mediumToolStripMenuItem,
-            this.hardToolStripMenuItem});
-            this.challenge.Name = "challenge";
-            this.challenge.Size = new System.Drawing.Size(180, 22);
-            this.challenge.Text = "challenge";
-            // 
-            // easyeToolStripMenuItem
-            // 
-            this.easyeToolStripMenuItem.Name = "easyeToolStripMenuItem";
-            this.easyeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.easyeToolStripMenuItem.Text = "easy";
-            this.easyeToolStripMenuItem.Click += new System.EventHandler(this.easyeToolStripMenuItem_Click);
-            // 
-            // mediumToolStripMenuItem
-            // 
-            this.mediumToolStripMenuItem.Name = "mediumToolStripMenuItem";
-            this.mediumToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.mediumToolStripMenuItem.Text = "medium";
-            // 
-            // hardToolStripMenuItem
-            // 
-            this.hardToolStripMenuItem.Name = "hardToolStripMenuItem";
-            this.hardToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.hardToolStripMenuItem.Text = "hard";
-            // 
             // Kadavr_Game
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -168,11 +114,9 @@
             this.Controls.Add(this.Score);
             this.Controls.Add(this.CordY);
             this.Controls.Add(this.CordX);
-            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.HelpButton = true;
-            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Kadavr_Game";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -181,8 +125,6 @@
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Kadavr_Game_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Kadavr_Game_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Kadavr_Game_KeyUp);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -198,11 +140,5 @@
         private Label Score;
         private Label gameOverLabel;
         private Label hpBar;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem Menu;
-        private ToolStripMenuItem challenge;
-        private ToolStripMenuItem easyeToolStripMenuItem;
-        private ToolStripMenuItem mediumToolStripMenuItem;
-        private ToolStripMenuItem hardToolStripMenuItem;
     }
 }

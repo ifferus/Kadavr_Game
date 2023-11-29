@@ -26,9 +26,9 @@ namespace Kadavr
             posY = y;
             damage = rnd.Next(5, 10);
         }
-        public void MoveWolf()
+        public void MoveWolf(int speedWolfs)
         {
-            posXRender += 5 +  rnd.Next(1,5) - rnd.Next(1,5);
+            posXRender += speedWolfs +  rnd.Next(1,5) - rnd.Next(1,5);
         }
 
         public void MoveWolfOnPlayer(int posXPlayer)

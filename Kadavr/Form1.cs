@@ -20,6 +20,9 @@ namespace Kadavr
         Random rnd;
         public int backgroundspeed;
         public int bulletsSpeed;
+        public int wolfsCount;
+        public int cactusCount;
+        public int speedWolfs;
         Sounds sound;
 
 
@@ -36,15 +39,12 @@ namespace Kadavr
             
         }
 
-
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             sound = new Sounds();
             player = new Player();
-            enemyWolfs = new EnemyWolf[30];
-            enemyCactus = new EnemyCactus[10];
+            enemyWolfs = new EnemyWolf[wolfsCount];
+            enemyCactus = new EnemyCactus[cactusCount];
             map = new MapController();
             bird = new PictureBox[20];
             bullets = new PictureBox[1];
@@ -138,7 +138,7 @@ namespace Kadavr
             for (int i = 0; i < enemyWolfs.Length; i++)
             {
                 //enemyWolfs[i].SpawnWolf(rnd.Next(300, 400), rnd.Next(500, 600));
-                enemyWolfs[i].MoveWolf();
+                enemyWolfs[i].MoveWolf(speedWolfs);
             }
             Refresh();
         }
@@ -287,11 +287,5 @@ namespace Kadavr
             map.MoveStop();
             sound.SoundsSpeechDeath();
         }
-
-        private void easyeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

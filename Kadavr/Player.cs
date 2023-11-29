@@ -17,7 +17,7 @@ namespace Kadavr
         public int posYRender = 380;
         public int speed = 5;
         public Rectangle heatBoxPlayer;
-        public int heatPoint = 100;
+        public int heatPoint = 500;
         public bool playerIsDeath = false;
         
         public void RegisterDamage(int damage)
@@ -162,6 +162,10 @@ namespace Kadavr
             Rectangle bucklePlayer = new Rectangle(posX + 15, posY + 110, 10, 10);
             e.FillRectangle(Brushes.Yellow, bucklePlayer);
             /////////////
+            ///
+            Rectangle hpBar = new Rectangle(20, 30, heatPoint, 20);
+            e.DrawRectangle(Pens.Black, hpBar);
+            e.FillRectangle(Brushes.DarkOrange, hpBar);
         }
     }
 }
